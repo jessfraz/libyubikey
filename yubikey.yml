@@ -1,0 +1,69 @@
+---
+GENERATOR:
+  PackageName: yubikey
+  PackageDescription: "Package yubikey provides Go bindings for libyubikey."
+  PackageLicense: |
+    Redistribution and use in source and binary forms, with or without
+    modification, are permitted provided that the following conditions
+    are met:
+
+    * Redistributions of source code must retain the above copyright
+    notice, this list of conditions and the following disclaimer.
+
+    * Redistributions in binary form must reproduce the above
+    copyright notice, this list of conditions and the following
+    disclaimer in the documentation and/or other materials provided
+    with the distribution.
+
+    THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+    "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+    LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+    A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
+    OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+    SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+    LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+    DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+    THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+    (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+    OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+  Includes: ["yubikey.h"]
+  FlagGroups:
+    - {name: LDFLAGS, flags: [-lyubikey]}
+
+PARSER:
+  IncludePaths: ["/usr/include/linux", "/usr/include", "/usr/lib", "/usr/src/yubico-c"]
+  SourcesPaths: ["yubikey.h"]
+
+TRANSLATOR:
+  ConstRules:
+    defines: expand
+  PtrTips:
+    function:
+      - {target: "_generate$", tips: [ref, sref, sref]}
+      - {target: "_parse$", tips: [sref, sref, ref]}
+      - {target: "_modhex_encode$", tips: [arr, ref, size]}
+      - {target: "_modhex_decode$", tips: [arr, ref, size]}
+      - {target: "_hex_encode$", tips: [arr, ref, size]}
+      - {target: "_hex_decode$", tips: [arr, ref, size]}
+      - {target: "_modhex_p$", tips: [ref]}
+      - {target: "_hex_p$", tips: [ref]}
+      - {target: "_crc16$", tips: [ref, size]}
+      - {target: "_aes_decrypt$", tips: [arr, ref]}
+      - {target: "_aes_encrypt$", tips: [arr, ref]}
+      - {target: "_token_t$", tips: [sref]}
+  Rules:
+    global:
+      - {action: accept, from: "(?i)^YUBIKEY"}
+      - {action: replace, from: "(?i)^YUBIKEY"}
+      - {transform: export}
+    const:
+      - {action: accept, from: "^YUBIKEY_"}
+      - {action: replace, from: "^yubikey_", to: _}
+    type:
+      - {action: ignore, from: "_token_st"}
+      - {action: replace, from: "_t$"}
+    private:
+      - {transform: unexport}
+    post-global:
+      - {action: replace, from: _$}
+      - {load: snakecase}

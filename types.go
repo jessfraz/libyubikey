@@ -45,6 +45,6 @@ type Token struct {
 	Use            byte
 	Rnd            uint16
 	Crc            uint16
-	ref33654d9c    **C.yubikey_token_st
+	ref33654d9c    *C.yubikey_token_st
 	allocs33654d9c interface{}
 }

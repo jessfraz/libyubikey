@@ -90,7 +90,7 @@ func (a *cgoAllocMap) Free() {
 	a.mux.Unlock()
 }
 
-// allocTokenStMemory allocates memory for type C.yubikey_token_st in C.
+// allocTokenStMemory allocates memory for type *C.yubikey_token_st in C.
 // The caller is responsible for freeing the this memory via C.free.
 func allocTokenStMemory(n int) unsafe.Pointer {
 	mem, err := C.calloc(C.size_t(n), (C.size_t)(sizeOfTokenStValue))
@@ -100,10 +100,10 @@ func allocTokenStMemory(n int) unsafe.Pointer {
 	return mem
 }
 
-const sizeOfTokenStValue = unsafe.Sizeof([1]C.yubikey_token_st{})
+const sizeOfTokenStValue = unsafe.Sizeof([1]*C.yubikey_token_st{})
 
 // Ref returns the underlying reference to C object or nil if struct is nil.
-func (x *Token) Ref() **C.yubikey_token_st {
+func (x *Token) Ref() *C.yubikey_token_st {
 	if x == nil {
 		return nil
 	}
@@ -126,13 +126,14 @@ func NewTokenRef(ref unsafe.Pointer) *Token {
 		return nil
 	}
 	obj := new(Token)
-	obj.ref33654d9c = (**C.yubikey_token_st)(unsafe.Pointer(ref))
+	ref33654d9c := (*C.yubikey_token_t)(unsafe.Pointer(ref))
+	obj.ref33654d9c = (*C.yubikey_token_st)(unsafe.Pointer(ref33654d9c))
 	return obj
 }
 
 // PassRef returns the underlying C object, otherwise it will allocate one and set its values
 // from this wrapping struct, counting allocations into an allocation map.
-func (x *Token) PassRef() (**C.yubikey_token_st, *cgoAllocMap) {
+func (x *Token) PassRef() (*C.yubikey_token_st, *cgoAllocMap) {
 	if x == nil {
 		return nil, nil
 	} else if x.ref33654d9c != nil {
@@ -176,7 +177,7 @@ func (x *Token) PassRef() (**C.yubikey_token_st, *cgoAllocMap) {
 }
 
 // PassValue does the same as PassRef except that it will try to dereference the returned pointer.
-func (x Token) PassValue() (*C.yubikey_token_st, *cgoAllocMap) {
+func (x Token) PassValue() (C.yubikey_token_st, *cgoAllocMap) {
 	if x.ref33654d9c != nil {
 		return *x.ref33654d9c, nil
 	}

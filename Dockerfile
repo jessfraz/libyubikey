@@ -33,5 +33,5 @@ RUN git clone --depth 1 -b "libyubikey-${YUBICOC_VERSION}" \
 	)
 
 ENV PKG_CONFIG_PATH /usr/lib/pkgconfig:/usr/src/yubico-c
-COPY . /go/src/github.com/jfrazelle/libyubikey
-WORKDIR /go/src/github.com/jfrazelle/libyubikey
+COPY . /go/src/github.com/jessfraz/libyubikey
+WORKDIR /go/src/github.com/jessfraz/libyubikey

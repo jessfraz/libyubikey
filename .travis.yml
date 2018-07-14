@@ -1,8 +1,14 @@
----
-  sudo: required
-  notifications:
-    email: true
-  services:
-    - docker
-  script:
-    - make dtest
+language: go
+sudo: true
+services:
+  - docker
+go:
+  - 1.10.x
+before_install:
+  - go get github.com/golang/lint/golint
+  - go get honnef.co/go/tools/cmd/staticcheck
+jobs:
+  include:
+    - script:
+      - make fmt lint staticcheck vet
+      - make dtest

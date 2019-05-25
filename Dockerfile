@@ -19,7 +19,7 @@ RUN	apk add --no-cache \
 	libtool
 
 RUN go get github.com/xlab/cgogen \
-	&& go get github.com/golang/lint/golint
+	&& go get golang.org/x/lint/golint
 
 ENV YUBICOC_VERSION 1.13
 RUN git clone --depth 1 -b "libyubikey-${YUBICOC_VERSION}" \

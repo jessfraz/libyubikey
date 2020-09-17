@@ -1,3 +1,11 @@
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+**Table of Contents**
+
+- [libyubikey](#libyubikey)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
 # libyubikey
 
 [![make-all](https://github.com/jessfraz/libyubikey/workflows/make%20all/badge.svg)](https://github.com/jessfraz/libyubikey/actions?query=workflow%3A%22make+all%22)
